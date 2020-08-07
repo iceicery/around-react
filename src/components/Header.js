@@ -1,8 +1,9 @@
 import React from 'react';
+import logoIcon from '../images/Vector.svg';
 function Header() {
     return (
         <header className="header">
-            <img src="./images/Vector.svg" alt="logo" className="header__logo" />
+            <img src={logoIcon} alt="logo" className="header__logo" />
         </header>
     );
 }

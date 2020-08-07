@@ -1,22 +1,27 @@
 import React from 'react';
+import PopupWithForm from './PopupWithForm.js';
+import ImagePopup from './ImagePopup.js'
+import explorerImg from '../images/explorer.jpg';
+import penIcon from '../images/pen.svg';
+
 function Main() {
     function handleEditAvatarClick(){
-        document.querySelector(".avatar").classList.remove('hidden');
+        document.querySelector(".popup_type_avatar").classList.remove('hidden');
     }
 
     function handleEditProfileClick(){
-        document.querySelector(".edit").classList.remove('hidden');
+        document.querySelector(".popup_type_edit").classList.remove('hidden');
     }
 
     function handleAddPlaceClick(){
-        document.querySelector(".add").classList.remove('hidden');
+        document.querySelector(".popup_type_add").classList.remove('hidden');
     }
     return (
         <main className="container">
             <section className="profile">
                 <div className="profile__img-container" onClick={handleEditAvatarClick}>
-                    <img src="images/explorer.jpg" alt="explorer" className="profile__img" />
-                    <img src="images/pen.svg" alt="button" className="profile__img-edit" />
+                    <img src={explorerImg} alt="explorer" className="profile__img" />
+                    <img src={penIcon} alt="button" className="profile__img-edit" />
                 </div>
                 <div className="profile__text-container">
                     <div className="profile__title-box">
@@ -30,54 +35,11 @@ function Main() {
                 <ul className="elements__container">
                 </ul>
             </section>
-            <section className="edit hidden">
-                <button className="edit__button-icon"></button>
-                <form className="edit__form" noValidate>
-                    <h2 className="edit__title">Edit profile</h2>
-                    <input type="text" id="name" className="edit__input edit__input-name" name="name" value="Jacques Cousteau"
-                        placeholder="Name" required minLength="2" maxLength="40" />
-                    <span className="edit__input-error" id="name-error"></span>
-                    <input type="text" id="job" className="edit__input edit__input-job" name="link" value="Explorer"
-                        placeholder="About" required minLength="2" maxLength="200" />
-                    <span className="edit__input-error" id="job-error"></span>
-                    <button className="edit__button">Save</button>
-                </form>
-            </section>
-            <section className="add hidden">
-                <button className="add__button-icon"></button>
-                <form className="add__form" noValidate>
-                    <h2 className="add__title">New Place</h2>
-                    <input type="text" id="title" className="add__input add__input-title add__input-name" name="name"
-                        placeholder="Title" value="" required minLength="1" maxLength="30" />
-                    <span className="add__title-error" id="title-error"></span>
-                    <input type="url" id="link" className="add__input add__input-img add__input-link" name="link"
-                        placeholder="Image link" value="" required minLength="1" />
-                    <span className="add__link-error" id="link-error"></span>
-                    <button className="add__button">Create</button>
-                </form>
-            </section>
-            <section className="bigPic hidden">
-                <button className="bigPic__button-icon"></button>
-                <img src="./images/yosemite.jpg" alt="BigPicture" className="bigPic__img" />
-                <p className="bigPic__title">Yosemite Valley</p>
-            </section>
-            <section className="remove hidden">
-                <form>
-                    <button className="remove__button-icon"></button>
-                    <h2 className="remove__title">Are you sure?</h2>
-                    <button className="remove__button">Yes</button>
-                </form>
-            </section>
-            <section className="avatar hidden">
-                <button className="avatar__button-icon"></button>
-                <form className="avatar__form" noValidate>
-                    <h2 className="avatar__title">Change userpic</h2>
-                    <input type="url" id="img" className="avatar__input avatar__input-img avatar__input-link" name="link"
-                        placeholder="Image link" value="" required minLength="1" />
-                    <span className="avatar__link-error" id="img-error"></span>
-                    <button className="avatar__button">Save</button>
-                </form>
-            </section>
+            <PopupWithForm name="edit" title="Edit profile" buttonText="Save" withInput={2} inputNameOne="name" inputNameTwo="link" iniInputValueOne="Jacques Cousteau" iniInputValueTwo="Explorer" inputPlaceholderOne="Name" inputPlaceholderTwo="Job"/>
+            <PopupWithForm name="add" title="New Place" buttonText="Create" withInput={2} inputNameOne="name" inputNameTwo="link" iniInputValueOne="" iniInputValueTwo="" inputPlaceholderOne="Title" inputPlaceholderTwo="Image link"/> 
+            <PopupWithForm name="remove" title="Are you sure?" buttonText="Yes" withInput={0} />
+            <PopupWithForm name="avatar" title="Change userpic" buttonText="Save" withInput={1} inputNameOne="link" iniInputValueOne="" inputPlaceholderOne="Image link"/>
+            <ImagePopup/>
         </main>
     );
 }
