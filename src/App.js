@@ -2,17 +2,37 @@ import React from 'react';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
 import Footer from './components/Footer.js';
-import logo from './logo.svg';
-import './index.css';
-
+import './pages/index.css';
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditOpen]=React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddOpen]=React.useState(false);
+  const [isEditAvatarPopupOpen, setIsAvatarOpen]=React.useState(false);
+
+  function handleEditProfileClick() {
+    setIsEditOpen(true);
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddOpen(true);
+  }
+
+  function handleEditAvatarClick() {
+    setIsAvatarOpen(true);
+  }
+
+  function closeAllPopups(){
+    setIsEditOpen(false);
+    setIsAvatarOpen(false);
+    setIsAddOpen(false);
+  }
   return (
-    <body className="page">
+    <div className="page">
       <div className="darken hidden"></div>
       <div className="darken-dark hidden"></div>
       <Header />
-      <Main />
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups}
+            isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen}/>
       <Footer />
       <template id="img-template">
         <li className="elements__item">
@@ -27,7 +47,7 @@ function App() {
           </div>
         </li>
       </template>
-    </body>
+    </div>
   );
 }
 
