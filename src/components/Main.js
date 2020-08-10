@@ -3,22 +3,33 @@ import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js'
 import explorerImg from '../images/explorer.jpg';
 import penIcon from '../images/pen.svg';
+import Card from './Card.js'
 import { api } from '../utils/utils.js';
 
 function Main(props) {
-    const [userName, getName] = React.useState("Default Name");
-    const [userDescription, getDescription] = React.useState("Default Description");
-    const [userAvatar, getAvatar] = React.useState({ explorerImg });
+    const [userName, setName] = React.useState("Default Name");
+    const [userDescription, setDescription] = React.useState("Default Description");
+    const [userAvatar, setAvatar] = React.useState({ explorerImg });
 
     api.getUserInfo()
         .then(res => {
-            getName(res.name);
-            getDescription(res.about);
-            getAvatar(res.avatar);
+            setName(res.name);
+            setDescription(res.about);
+            setAvatar(res.avatar);           
         })
         .catch(error => {
             console.log(error);
         })
+
+    const [cards, setCards] = React.useState([]);
+    api.getInitialCards()
+        .then(res => {
+            setCards(res);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+
 
     return (
         <main className="container">
@@ -37,13 +48,16 @@ function Main(props) {
             </section>
             <section className="elements">
                 <ul className="elements__container">
+                    {cards.map((card, i) => (
+                        <Card card={card} id={i.toString()} onCardClick={props.onCardClick}/>
+                    ))}
                 </ul>
-            </section>
+            </section> 
             <PopupWithForm isOpen={props.isEditProfilePopupOpen} closeAllPopups={props.closeAllPopups} name="edit" title="Edit profile" buttonText="Save" withInput={2} inputNameOne="name" inputNameTwo="link" inputPlaceholderOne="Name" inputPlaceholderTwo="Job" />
             <PopupWithForm isOpen={props.isAddPlacePopupOpen} closeAllPopups={props.closeAllPopups} name="add" title="New Place" buttonText="Create" withInput={2} inputNameOne="name" inputNameTwo="link" inputPlaceholderOne="Title" inputPlaceholderTwo="Image link" />
             <PopupWithForm isOpen={false} name="remove" title="Are you sure?" buttonText="Yes" withInput={0} />
             <PopupWithForm isOpen={props.isEditAvatarPopupOpen} closeAllPopups={props.closeAllPopups} name="avatar" title="Change userpic" buttonText="Save" withInput={1} inputNameOne="link" iniInputValueOne="" inputPlaceholderOne="Image link" />
-            <ImagePopup />
+            <ImagePopup card={props.selectedCard} onClose={props.onClose}/>
         </main>
     );
 }

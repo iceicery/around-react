@@ -28,27 +28,24 @@ function App() {
     setIsAvatarOpen(false);
     setIsAddOpen(false);
   }
+
+  const [selectedCard,setSelectedCard]=React.useState({});
+  function handleCardClick(card){
+    setSelectedCard(card);
+  }
+
+  function handleImgPopupClose(){
+    document.querySelector('.bigPic').classList.add('hidden');
+  }
+
   return (
     <div className="page">
       <div className="darken hidden"></div>
       <div className="darken-dark hidden"></div>
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups}
-            isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen}/>
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose}
+            isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} selectedCard={selectedCard}/>
       <Footer />
-      <template id="img-template">
-        <li className="elements__item">
-          <img src="./images/lago_di_braies.jpg" alt="BeautifulPicture" className="elements__img" />
-          <button className="elements__trash hidden"></button>
-          <div className="elements__title-box">
-            <h2 className="elements__title">Lago di Braies</h2>
-            <div className="elements__like-box">
-              <button className="elements__heart"></button>
-              <p className="elements__like-count">0</p>
-            </div>
-          </div>
-        </li>
-      </template>
     </div>
   );
 }
