@@ -4,6 +4,8 @@ import Main from './components/Main.js';
 import Footer from './components/Footer.js';
 import './pages/index.css';
 
+
+
 function App() {
   const [isEditProfilePopupOpen, setIsEditOpen]=React.useState(false);
   const [isAddPlacePopupOpen, setIsAddOpen]=React.useState(false);
