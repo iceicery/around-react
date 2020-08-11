@@ -10,6 +10,7 @@ function Main(props) {
     const [userName, setName] = React.useState("Default Name");
     const [userDescription, setDescription] = React.useState("Default Description");
     const [userAvatar, setAvatar] = React.useState({ explorerImg });
+    const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
         api.getUserInfo()
@@ -20,20 +21,15 @@ function Main(props) {
             })
             .catch(error => {
                 console.log(error);
-            })
-    }, []);
-
-    const [cards, setCards] = React.useState([]);
-    React.useEffect(() => {
+            });
         api.getInitialCards()
             .then(res => {
                 setCards(res);
             })
             .catch(error => {
                 console.log(error);
-            })
+            });
     }, []);
-
 
 
     return (
@@ -54,14 +50,32 @@ function Main(props) {
             <section className="elements">
                 <ul className="elements__container">
                     {cards.map((card, i) => (
-                        <Card card={card} id={i.toString()} onCardClick={props.onCardClick} />
+                        <Card key={i} card={card} onCardClick={props.onCardClick} />
                     ))}
                 </ul>
             </section>
-            <PopupWithForm isOpen={props.isEditProfilePopupOpen} closeAllPopups={props.closeAllPopups} name="edit" title="Edit profile" buttonText="Save" withInput={2} inputNameOne="name" inputNameTwo="link" inputPlaceholderOne="Name" inputPlaceholderTwo="Job" />
-            <PopupWithForm isOpen={props.isAddPlacePopupOpen} closeAllPopups={props.closeAllPopups} name="add" title="New Place" buttonText="Create" withInput={2} inputNameOne="name" inputNameTwo="link" inputPlaceholderOne="Title" inputPlaceholderTwo="Image link" />
-            <PopupWithForm isOpen={false} name="remove" title="Are you sure?" buttonText="Yes" withInput={0} />
-            <PopupWithForm isOpen={props.isEditAvatarPopupOpen} closeAllPopups={props.closeAllPopups} name="avatar" title="Change userpic" buttonText="Save" withInput={1} inputNameOne="link" iniInputValueOne="" inputPlaceholderOne="Image link" />
+            <PopupWithForm isOpen={props.isEditProfilePopupOpen} closeAllPopups={props.closeAllPopups} name="edit" title="Edit profile" buttonText="Save">
+                <input type="text" id="name" className="popup__input popup__input-name" name="name" 
+                    placeholder="Name" required minLength="2" maxLength="40" />
+                <span className={`${props.name}__input-error`} id="name-error"></span>
+                <input type="text" id="job" className="popup__input popup__input-job" name="link" 
+                    placeholder="About" required minLength="2" maxLength="200" />
+                <span className={`${props.name}__input-error`} id="job-error"></span>
+            </PopupWithForm>
+            <PopupWithForm isOpen={props.isAddPlacePopupOpen} closeAllPopups={props.closeAllPopups} name="add" title="New Place" buttonText="Create">
+                <input type="text" id="title" className="popup__input popup__input-name" name="name" 
+                    placeholder="Title" required minLength="1" maxLength="30" />
+                <span className={`${props.name}__input-error`} id="title-error"></span>
+                <input type="url" id="job" className="popup__input popup__input-job" name="link" 
+                    placeholder="Image link" required minLength="1" />
+                <span className={`${props.name}__input-error`} id="link-error"></span>
+            </PopupWithForm>
+            <PopupWithForm isOpen={false} name="remove" title="Are you sure?" buttonText="Yes" />
+            <PopupWithForm isOpen={props.isEditAvatarPopupOpen} closeAllPopups={props.closeAllPopups} name="avatar" title="Change userpic" buttonText="Save">
+                <input type="url" id="img" className="popup__input popup__input-job" name="link" 
+                    placeholder="Image link" required minLength="1" />
+                <span className={`${props.name}__input-error`} id="link-error"></span>
+            </PopupWithForm>
             <ImagePopup card={props.selectedCard} onClose={props.onClose} />
         </main>
     );
