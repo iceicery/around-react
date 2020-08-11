@@ -76,7 +76,7 @@ function Main(props) {
                     placeholder="Image link" required minLength="1" />
                 <span className={`${props.name}__input-error`} id="link-error"></span>
             </PopupWithForm>
-            <ImagePopup card={props.selectedCard} onClose={props.onClose} />
+            <ImagePopup isOpen={props.isImgEnlarge} card={props.selectedCard} onClose={props.onClose} />
         </main>
     );
 }

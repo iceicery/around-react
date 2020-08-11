@@ -4,7 +4,6 @@ import React from 'react';
 function Card(props) {
     function handleClick() {
         props.onCardClick(props.card);
-        document.querySelector('.bigPic').classList.remove('hidden');
     }
     return (
         <li className="elements__item">
