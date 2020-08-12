@@ -1,16 +1,16 @@
 import React from 'react';
 
-function PopupWithForm(props) {
+function PopupWithForm({isOpen, closeAllPopups, name, title, buttonText ,children}) {
     return (
-        props.isOpen &&
+        isOpen &&
         <>
         <div className="darken"></div>
-        <section className={`popup popup_type_${props.name}`}>
-            <button className={`popup__button-icon popup__button-icon_type_${props.name}`} onClick={props.closeAllPopups}></button>
-            <form className={`popup__form popup__form_type_${props.name}`} noValidate>
-                <h2 className={`popup__title popup__title_type_${props.name}`}>{props.title}</h2>
-                {props.children}
-                <button className={`popup__button popup__button_type_${props.name}`}>{props.buttonText}</button>
+        <section className={`popup popup_type_${name}`}>
+            <button className={`popup__button-icon popup__button-icon_type_${name}`} onClick={closeAllPopups}></button>
+            <form className={`popup__form popup__form_type_${name}`} noValidate>
+                <h2 className={`popup__title popup__title_type_${name}`}>{title}</h2>
+                {children}
+                <button className={`popup__button popup__button_type_${name}`}>{buttonText}</button>
             </form>
         </section>
         </>

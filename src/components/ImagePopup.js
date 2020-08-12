@@ -1,14 +1,14 @@
 import React from 'react';
 
-function ImagePopup(props) {
+function ImagePopup({isOpen, card, onClose}) {
     return (
-        props.isOpen &&
+        isOpen &&
         <>
         <div className="darken-dark"></div>
         <section className="bigPic">
-            <button className="bigPic__button-icon" onClick={props.onClose}></button>
-            <img src={props.card.link} alt="BigPicture" className="bigPic__img" />
-            <p className="bigPic__title">{props.card.name}</p>
+            <button className="bigPic__button-icon" onClick={onClose}></button>
+            <img src={card.link} alt="BigPicture" className="bigPic__img" />
+            <p className="bigPic__title">{card.name}</p>
         </section>
         </>
     );
