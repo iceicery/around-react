@@ -1,7 +1,6 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js'
-import explorerImg from '../images/explorer.jpg';
 import penIcon from '../images/pen.svg';
 import Card from './Card.js'
 import { api } from '../utils/utils.js';
@@ -9,23 +8,10 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardClick, onClose,
     isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImgEnlarge, selectedCard }) {
-    const avatar= React.useContext(CurrentUserContext);
-        //const [userName, setName] = React.useState("Default Name");
-    //const [userDescription, setDescription] = React.useState("Default Description");
-    //const [userAvatar, setAvatar] = React.useState({ explorerImg });
+    const currentUser= React.useContext(CurrentUserContext);
     const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
-        /*
-        api.getUserInfo()
-            .then(res => {
-                setName(res.name);
-                setDescription(res.about);
-                setAvatar(res.avatar);
-            })
-            .catch(error => {
-                console.log(error);
-            });*/
         api.getInitialCards()
             .then(res => {
                 setCards(res);
@@ -39,14 +25,14 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardC
         <main className="container">
             <section className="profile">
                 <div className="profile__img-container" onClick={onEditAvatar}>
-                    <img src={avatar.avatar} alt="explorer" className="profile__img" />
+                    <img src={currentUser.avatar} alt="explorer" className="profile__img" />
                     <img src={penIcon} alt="button" className="profile__img-edit" />
                 </div>
                 <div className="profile__text-container">
                     <div className="profile__title-box">
-                        <h1 className="profile__title">{avatar.name}</h1><button className="profile__button-sqr" onClick={onEditProfile}></button>
+                        <h1 className="profile__title">{currentUser.name}</h1><button className="profile__button-sqr" onClick={onEditProfile}></button>
                     </div>
-                    <p className="profile__subtitle">{avatar.about}</p>
+                    <p className="profile__subtitle">{currentUser.about}</p>
                 </div>
                 <button className="profile__button-reg" onClick={onAddPlace}></button>
             </section>
