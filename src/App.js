@@ -2,12 +2,25 @@ import React from 'react';
 import Header from './components/Header.js';
 import Main from './components/Main.js';
 import Footer from './components/Footer.js';
+import { api } from './utils/utils.js';
+import { CurrentUserContext } from './contexts/CurrentUserContext.js';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsAvatarOpen] = React.useState(false);
-  const [isImgEnlarge, setIsImgEnlarge]= React.useState(false);
+  const [isImgEnlarge, setIsImgEnlarge] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getUserInfo()
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }, [])
 
   function handleEditProfileClick() {
     setIsEditOpen(true);
@@ -26,7 +39,7 @@ function App() {
     setIsAvatarOpen(false);
     setIsAddOpen(false);
   }
-  
+
 
   const [selectedCard, setSelectedCard] = React.useState({});
 
@@ -34,20 +47,22 @@ function App() {
     setIsImgEnlarge(true);
     setSelectedCard(card);
   }
-  
+
 
   function handleImgPopupClose() {
     setIsImgEnlarge(false);
   }
-  
+
 
   return (
-    <div className="page">
-      <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose}
-        isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} />
-      <Footer />
-    </div>
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Header />
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose}
+          isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} />
+        <Footer />
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
