@@ -1,4 +1,5 @@
 import React from 'react';
+//import EditProfilePopup from './EditProfilePopup.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js'
 import penIcon from '../images/pen.svg';
@@ -72,14 +73,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardC
                     ))}
                 </ul>
             </section>
-            <PopupWithForm isOpen={isEditProfilePopupOpen} closeAllPopups={closeAllPopups} name="edit" title="Edit profile" buttonText="Save">
-                <input type="text" id="name" className="popup__input popup__input-name" name="name"
-                    placeholder="Name" required minLength="2" maxLength="40" />
-                <span className="popup__input-error" id="name-error"></span>
-                <input type="text" id="job" className="popup__input popup__input-job" name="link"
-                    placeholder="About" required minLength="2" maxLength="200" />
-                <span className="popup__input-error" id="job-error"></span>
-            </PopupWithForm>
             <PopupWithForm isOpen={isAddPlacePopupOpen} closeAllPopups={closeAllPopups} name="add" title="New Place" buttonText="Create">
                 <input type="text" id="title" className="popup__input popup__input-name" name="name"
                     placeholder="Title" required minLength="1" maxLength="30" />

@@ -4,7 +4,7 @@ import Main from './components/Main.js';
 import Footer from './components/Footer.js';
 import { api } from './utils/utils.js';
 import { CurrentUserContext } from './contexts/CurrentUserContext.js';
-
+import EditProfilePopup from './components/EditProfilePopup.js';
 function App() {
   const [isEditProfilePopupOpen, setIsEditOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddOpen] = React.useState(false);
@@ -53,13 +53,23 @@ function App() {
     setIsImgEnlarge(false);
   }
 
+  function handleUpdateUser(name,about){
+    api.editProfile(name,about)
+    .then((res)=>{
+      setCurrentUser(res);
+    })
+    .catch(err=>{console.log(err)})
+    closeAllPopups();
+  }
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose}
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose} 
           isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} closeAllPopups={closeAllPopups} onUpdateUser={handleUpdateUser}></EditProfilePopup>
         <Footer />
       </div>
     </CurrentUserContext.Provider>

@@ -30,20 +30,16 @@ export default class Api {
         return Promise.all(this.getInitialCards(), this.getUserInfo())
     }
     //PATCH https://around.nomoreparties.co/v1/groupId/users/me
-    editProfile(newName, newJob) {
+    editProfile(newName,newAbout) {
         return fetch(`${this.url}/users/me`, {
             method: "PATCH",
             headers: this.headers,
             body: JSON.stringify({
                 name: newName,
-                about: newJob
+                about: newAbout
             })
         })
             .then((res) => { return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`) })
-            .catch(error => {
-                console.log(error)
-            })
-
     }
     //PATCH https://around.nomoreparties.co/v1/groupId/users/me/avatar
     editProfilePic(newLink) {
