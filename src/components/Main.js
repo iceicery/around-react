@@ -82,11 +82,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardC
                 <span className="popup__input-error" id="link-error"></span>
             </PopupWithForm>
             <PopupWithForm isOpen={false} name="remove" title="Are you sure?" buttonText="Yes" />
-            <PopupWithForm isOpen={isEditAvatarPopupOpen} closeAllPopups={closeAllPopups} name="avatar" title="Change userpic" buttonText="Save">
-                <input type="url" id="img" className="popup__input popup__input-job" name="link"
-                    placeholder="Image link" required minLength="1" />
-                <span className="popup__input-error" id="link-error"></span>
-            </PopupWithForm>
+            
             <ImagePopup isOpen={isImgEnlarge} card={selectedCard} onClose={onClose} />
         </main>
     );
