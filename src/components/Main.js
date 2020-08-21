@@ -8,7 +8,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardClick, onClose,
     isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImgEnlarge, selectedCard }) {
-    const currentUser= React.useContext(CurrentUserContext);
+    const currentUser = React.useContext(CurrentUserContext);
     const [cards, setCards] = React.useState([]);
 
     React.useEffect(() => {
@@ -20,6 +20,35 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardC
                 console.log(error);
             });
     }, []);
+
+    function handleCardLike(card) {
+        // Check one more time if this card was already liked
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+        // Send a request to the API and getting the updated card data
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then(newCard => {
+                // Create a new array based on the existing one and putting a new card into it
+                const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+                // Update the state
+                setCards(newCards);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    function handleCardDelete(card) {
+        api.deleteCard(card._id)
+        .then(newCard =>{
+            const newCards = cards.filter(c=>c._id !== card._id);
+            setCards(newCards);
+        })
+        .catch(error=>{
+            console.log(error);
+        });
+    }
+
 
     return (
         <main className="container">
@@ -39,7 +68,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardC
             <section className="elements">
                 <ul className="elements__container">
                     {cards.map((card, i) => (
-                        <Card key={i} card={card} onCardClick={onCardClick} />
+                        <Card key={i} card={card} onCardClick={onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
                     ))}
                 </ul>
             </section>
