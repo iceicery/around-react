@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PopupWithForm from './PopupWithForm.js';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     const currentUser = useContext(CurrentUserContext);

@@ -6,6 +6,7 @@ import { api } from './utils/utils.js';
 import { CurrentUserContext } from './contexts/CurrentUserContext.js';
 import EditProfilePopup from './components/EditProfilePopup.js';
 import EditAvatarPopup from './components/EditAvatarPopup.js';
+import AddPlacePopup from './components/AddPlacePopup.js';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditOpen] = React.useState(false);
@@ -13,6 +14,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsAvatarOpen] = React.useState(false);
   const [isImgEnlarge, setIsImgEnlarge] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState([]);
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
     api.getUserInfo()
@@ -21,7 +23,15 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      });
+    api.getInitialCards()
+      .then(res => {
+        setCards(res);
       })
+      .catch(error => {
+        console.log(error);
+      });
+
   }, [])
 
   function handleEditProfileClick() {
@@ -55,35 +65,74 @@ function App() {
     setIsImgEnlarge(false);
   }
 
-  function handleUpdateUser(name,about){
-    api.editProfile(name,about)
-    .then(res=>{
-      setCurrentUser(res);
-    })
-    .catch(err=>{console.log(err)})
+  function handleUpdateUser(name, about) {
+    api.editProfile(name, about)
+      .then(res => {
+        setCurrentUser(res);
+      })
+      .catch(err => { console.log(err) })
 
     closeAllPopups();
   }
 
-  function handleUpdateAvatar(link){
+  function handleUpdateAvatar(link) {
     api.editProfilePic(link)
-    .then(res=>{
-      setCurrentUser(res);
-    })
-    .catch(err=>{console.log(err)})
+      .then(res => {
+        setCurrentUser(res);
+      })
+      .catch(err => { console.log(err) })
 
     closeAllPopups();
   }
 
+  function handleCardLike(card) {
+    // Check one more time if this card was already liked
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    // Send a request to the API and getting the updated card data
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then(newCard => {
+        // Create a new array based on the existing one and putting a new card into it
+        const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+        // Update the state
+        setCards(newCards);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      .then(newCard => {
+        const newCards = cards.filter(c => c._id !== card._id);
+        setCards(newCards);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  function handleAddPlaceSubmit(newName,newLink){
+    api.postNewCard(newName,newLink)
+    .then(newCard=>{
+      setCards([...cards, newCard]);
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose} 
-          isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} />
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose}
+          isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} 
+          cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdateAddPlace={handleAddPlaceSubmit} />
         <Footer />
       </div>
     </CurrentUserContext.Provider>
