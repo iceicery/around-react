@@ -12,16 +12,14 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         setDescription(currentUser.about);
     }, [currentUser]);
 
-    function handleChange(e) {
-        if (e.target.id === "name") {
-            setName(e.target.value);
+    function handleChangeName(e) {
+        setName(e.target.value);
 
-        }
-        if (e.target.id === "job") {
-            setDescription(e.target.value);
-
-        }
     }
+    function handleChangeJob(e) {
+        setDescription(e.target.value);
+    }
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -31,10 +29,10 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     return (
         <PopupWithForm isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} name="edit" title="Edit profile" buttonText="Save">
             <input type="text" id="name" className="popup__input popup__input-name" name="name"
-                placeholder="Name" required minLength="2" maxLength="40" onChange={handleChange} />
+                placeholder="Name" required minLength="2" maxLength="40" onChange={handleChangeName} />
             <span className="popup__input-error" id="name-error"></span>
             <input type="text" id="job" className="popup__input popup__input-job" name="link"
-                placeholder="About" required minLength="2" maxLength="200" onChange={handleChange} />
+                placeholder="About" required minLength="2" maxLength="200" onChange={handleChangeJob} />
             <span className="popup__input-error" id="job-error"></span>
         </PopupWithForm>
     );
