@@ -7,11 +7,13 @@ import { CurrentUserContext } from './contexts/CurrentUserContext.js';
 import EditProfilePopup from './components/EditProfilePopup.js';
 import EditAvatarPopup from './components/EditAvatarPopup.js';
 import AddPlacePopup from './components/AddPlacePopup.js';
+import RemoveConfirmPopup from './components/RemoveConfirmPopup.js';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsAvatarOpen] = React.useState(false);
+  const [isRemovePopupOpen, setIsRemovePopupOpen]=React.useState(false);
   const [isImgEnlarge, setIsImgEnlarge] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState([]);
   const [cards, setCards] = React.useState([]);
@@ -46,10 +48,15 @@ function App() {
     setIsAvatarOpen(true);
   }
 
+  function handleRemoveClick(){
+    setIsRemovePopupOpen(true);
+  }
+
   function closeAllPopups() {
     setIsEditOpen(false);
     setIsAvatarOpen(false);
     setIsAddOpen(false);
+    setIsRemovePopupOpen(false);
   }
 
 
@@ -57,6 +64,11 @@ function App() {
 
   function handleCardClick(card) {
     setIsImgEnlarge(true);
+    setSelectedCard(card);
+  }
+
+  function handleRemoveClick(card) {
+    setIsRemovePopupOpen(true);
     setSelectedCard(card);
   }
 
@@ -127,12 +139,13 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onClose={handleImgPopupClose}
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onRemoveClick={handleRemoveClick} onClose={handleImgPopupClose}
           isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} 
           cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdateAddPlace={handleAddPlaceSubmit} />
+        <RemoveConfirmPopup isOpen={isRemovePopupOpen} onClose={closeAllPopups} onConfirmRemove={handleCardDelete} card={selectedCard}/>
         <Footer />
       </div>
     </CurrentUserContext.Provider>

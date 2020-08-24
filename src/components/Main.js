@@ -9,7 +9,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardClick, onClose,
     isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImgEnlarge, selectedCard,
-    cards, onCardLike, onCardDelete}) {
+    cards, onCardLike, onRemoveClick}) {
     const currentUser = React.useContext(CurrentUserContext);
    
 
@@ -33,11 +33,10 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardC
             <section className="elements">
                 <ul className="elements__container">
                     {cards.map((card, i) => (
-                        <Card key={i} card={card} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete}/>
+                        <Card key={i} card={card} onCardClick={onCardClick} onCardLike={onCardLike} onRemoveClick={onRemoveClick}/>
                     ))}
                 </ul>
             </section>
-            <PopupWithForm isOpen={false} name="remove" title="Are you sure?" buttonText="Yes" />
             <ImagePopup isOpen={isImgEnlarge} card={selectedCard} onClose={onClose} />
         </main>
     );

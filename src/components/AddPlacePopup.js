@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import PopupWithForm from './PopupWithForm.js';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 export default function AddPlacePopup({isOpen, onClose, onUpdateAddPlace}) {
     const [newName,setNewName]=React.useState("");
