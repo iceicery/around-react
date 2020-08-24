@@ -48,14 +48,11 @@ function App() {
     setIsAvatarOpen(true);
   }
 
-  function handleRemoveClick(){
-    setIsRemovePopupOpen(true);
-  }
-
   function closeAllPopups() {
     setIsEditOpen(false);
     setIsAvatarOpen(false);
     setIsAddOpen(false);
+    setIsImgEnlarge(false);
     setIsRemovePopupOpen(false);
   }
 
@@ -72,10 +69,10 @@ function App() {
     setSelectedCard(card);
   }
 
-
+/*
   function handleImgPopupClose() {
     setIsImgEnlarge(false);
-  }
+  }*/
 
   function handleUpdateUser(name, about) {
     api.editProfile(name, about)
@@ -139,9 +136,8 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} closeAllPopups={closeAllPopups} onCardClick={handleCardClick} onRemoveClick={handleRemoveClick} onClose={handleImgPopupClose}
-          isEditProfilePopupOpen={isEditProfilePopupOpen} isAddPlacePopupOpen={isAddPlacePopupOpen} isEditAvatarPopupOpen={isEditAvatarPopupOpen} isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} 
-          cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onClose={closeAllPopups} onCardClick={handleCardClick} 
+          isImgEnlarge={isImgEnlarge} selectedCard={selectedCard} cards={cards} onCardLike={handleCardLike} onRemoveClick={handleRemoveClick}/>
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onUpdateAddPlace={handleAddPlaceSubmit} />

@@ -1,20 +1,12 @@
 import React from 'react';
-//import EditProfilePopup from './EditProfilePopup.js';
-import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js'
 import penIcon from '../images/pen.svg';
 import Card from './Card.js'
-import { api } from '../utils/utils.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, closeAllPopups, onCardClick, onClose,
-    isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isImgEnlarge, selectedCard,
-    cards, onCardLike, onRemoveClick}) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, onClose,
+     isImgEnlarge, selectedCard, cards, onCardLike, onRemoveClick}) {
     const currentUser = React.useContext(CurrentUserContext);
-   
-
-    
-
     return (
         <main className="container">
             <section className="profile">

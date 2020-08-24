@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
 export default function AddPlacePopup({isOpen, onClose, onUpdateAddPlace}) {
