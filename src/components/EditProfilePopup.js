@@ -28,10 +28,10 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
     return (
         <PopupWithForm isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} name="edit" title="Edit profile" buttonText="Save">
-            <input type="text" id="name" className="popup__input popup__input-name" name="name" value={name}
+            <input type="text" id="name" className="popup__input popup__input-name" name="name" value={name || ""}
                 placeholder="Name" required minLength="2" maxLength="40" onChange={handleChangeName} />
             <span className="popup__input-error" id="name-error"></span>
-            <input type="text" id="job" className="popup__input popup__input-job" name="link" value={description}
+            <input type="text" id="job" className="popup__input popup__input-job" name="link" value={description || ""}
                 placeholder="About" required minLength="2" maxLength="200" onChange={handleChangeJob} />
             <span className="popup__input-error" id="job-error"></span>
         </PopupWithForm>
